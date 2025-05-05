@@ -12,7 +12,7 @@ screenGui.ResetOnSpawn = false
 screenGui.Parent = playerGui
 
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 500, 0, 350) -- увеличили ширину для 2 столбцов
+frame.Size = UDim2.new(0, 500, 0, 350)
 frame.Position = UDim2.new(0.5, -250, 0.5, -175)
 frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 frame.BorderSizePixel = 0
@@ -124,6 +124,7 @@ local offsetStep = 100
 local speedSection = createSliderSection(frame, yOffset, "Скорость", {min = 16, max = 200, default = 16}, 10)
 local jumpSection = createSliderSection(frame, yOffset + offsetStep, "Прыжок", {min = 20, max = 200, default = 50}, 10)
 local fovSection = createSliderSection(frame, yOffset + offsetStep * 2, "FOV", {min = 60, max = 120, default = 70}, 10)
+local instantSpeedSection = createSliderSection(frame, yOffset + offsetStep * 3, "Мгнов. скорость", {min = 16, max = 300, default = 100}, 10)
 
 -- === ESP секция — во втором столбце ===
 local espActive = false
@@ -188,7 +189,6 @@ local function createEspCheckbox(xOffset, yOffset)
 		if espActive then
 			startEsp()
 		else
-			-- Очистка ESP
 			for _, plr in ipairs(game.Players:GetPlayers()) do
 				if plr.Character and plr.Character:FindFirstChild("EspBox") then
 					plr.Character.EspBox:Destroy()
@@ -198,7 +198,6 @@ local function createEspCheckbox(xOffset, yOffset)
 	end)
 end
 
--- второй столбец X = 270
 createEspCheckbox(270, 40)
 
 -- === Обновление параметров ===
@@ -214,6 +213,10 @@ RunService.RenderStepped:Connect(function()
 	end
 	if fovSection.active then
 		camera.FieldOfView = fovSection.value
+	end
+	if instantSpeedSection.active and char:FindFirstChild("HumanoidRootPart") then
+		local moveDir = char.Humanoid.MoveDirection
+		char.HumanoidRootPart.Velocity = moveDir * instantSpeedSection.value + Vector3.new(0, char.HumanoidRootPart.Velocity.Y, 0)
 	end
 end)
 
