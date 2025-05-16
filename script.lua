@@ -121,7 +121,7 @@ end
 -- Первый столбец
 local yOffset = 40
 local offsetStep = 100
-local instantSpeedSection = createSliderSection(frame, yOffset, "Скорость", {min = 16, max = 300, default = 100}, 10)
+local instantSpeedSection = createSliderSection(frame, yOffset, "Скорость", {min = 16, max = 1000, default = 100}, 10)
 local jumpSection = createSliderSection(frame, yOffset + offsetStep, "Прыжок", {min = 20, max = 200, default = 50}, 10)
 local fovSection = createSliderSection(frame, yOffset + offsetStep * 2, "FOV", {min = 60, max = 120, default = 70}, 10)
 
